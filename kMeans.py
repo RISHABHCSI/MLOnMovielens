@@ -42,7 +42,7 @@ def kMeans(dataSet,k):
 		for i in range(0,k):
 			temp=[]# contain the list of users belong to a particular cluster(i)
 			for j in range(0,m):
-				if clusterAssignment[j]==i:# since clusterAssignment is a matrix.. otherwise clusterAssignment[j] will work
+				if clusterAssignment[j]==i:
 					temp.append(j)
 			ptsInClust=mat(zeros((len(temp),n)))
 			for k in range(0,len(temp)):
@@ -81,7 +81,7 @@ def test():
 		index+=1
 	meanError=totalError/len(testData)
 	print meanError
-	standardDeviation=std(predictions)
-	print standardDeviation
+	# standardDeviation=std(predictions)
+	# print standardDeviation
 
 test()

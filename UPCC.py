@@ -28,6 +28,7 @@ def correlation(dataSet,i):
 			summation2=0.0
 			summation3=0.0
 			count=0
+			"""
 			for k in range(0,1682):
 				if dataSet[i,k] and dataSet[j,k]:
 					# print dataSet[i,k]
@@ -45,30 +46,46 @@ def correlation(dataSet,i):
 				mean2/=count
 			# print mean2
 			# print mean1
-			for k in range(0,1682):
-				if dataSet[i,k] and dataSet[j,k]:
-					# mean1+=dataSet[i,k]
-					# mean2+=dataSet[j,k]
-					summation+=((dataSet[i,k]-mean1)*(dataSet[j,k]-mean2))
-					# print ((dataSet[i,k]-mean1))
-					# print (dataSet[j,k]-mean2)
-					# print mean1
-					# print mean2
+			print
+			"""
+			meanList=[]
+			for i in range(0,shape(dataSet)[0]):
+				count=0
+				summation=0.0
+				for j in range(0,shape(dataSet)[1]):
+					if dataSet[i,j]!=0:
+						count+=1
+						summation+=dataSet[i,j]
+				if count:
+					summation=summation/count
+
+				for k in range(0,1682):
+					if dataSet[i,k] and dataSet[j,k]:
+						# mean1+=dataSet[i,k]
+						# mean2+=dataSet[j,k]
+						summation+=((dataSet[i,k]-mean[i])*(dataSet[j,k]-mean[j]))
+						# print ((dataSet[i,k]-mean1))
+						# print (dataSet[j,k]-mean2)
+						# print mean1
+						# print mean2
+						# print
+						summation2+=((dataSet[i,k]-mean[i])**2)
+						summation3+=((dataSet[j,k]-mean[j])**2)
+						# count+=1
+				# break
+				if summation2==0.0 or summation3==0.0:
+					relation[i,j]=0
+				else:
+					# print summation
+					# print summation2
+					# print summation3
 					# print
-					summation2+=((dataSet[i,k]-mean1)**2)
-					summation3+=((dataSet[j,k]-mean2)**2)
-					# count+=1
-			# break
-			if summation2==0.0 or summation3==0.0:
-				relation[i,j]=0
-			else:
+					relation[i,j]=float(summation)/((summation2*summation3)**(0.5))
 				# print summation
 				# print summation2
 				# print summation3
 				# print
-				relation[i,j]=float(summation)/((summation2*summation3)**(0.5))
-			# print summation
-			# print summation
+				# print summation
 			# break
 	# print list(relation[])
 	# print relation[i,:]
@@ -100,11 +117,11 @@ def test():
 		else:
 			answer=around(summation/(count))
 		# break
-		print answer
+		# print answer
 		# print summation
 		# print count
 		# print
-		# break
+		break
 
 	# print len(testSet)
 	# for i in range(0,)
