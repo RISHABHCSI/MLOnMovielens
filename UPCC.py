@@ -1,5 +1,6 @@
 import loadData
 from numpy import *
+from sklearn import *
 	# print meanList
 def meanOfMoviesWatched(dataSet,i):
 	mean1=0
@@ -48,12 +49,15 @@ def pearson(dataSet,i=1):
 def test():
 	dataSet=loadData.loadTrainingData("u.data")
 	avg=0.0
+	standardDeviation=0.0
 	for x in range(1,6):
 		testSet,testLabel=loadData.loadTestData("u"+str(x)+".test")
 		# for i in range(shape(testSet)[0]):
+		testLabel=testLabel[:100]
 		index=0
 		totalError=0
 		mTest=0
+		predictions=[]
 		for t in testSet:
 			user,movie=int(t[0])-1,int(t[1])-1
 			label=testLabel[index]
@@ -70,15 +74,24 @@ def test():
 				answer=3
 			else:
 				answer=around(summation/(count))
-			print answer
+			# print answer
+			predictions.append(answer)
 			totalError+=absolute(answer-label)
 			index+=1
 			mTest+=1
 			if mTest==100:
 				break
+
+			# stdDeviation=
 		meanError=float(totalError)/mTest
+		predictions=array(predictions)
 		avg+=meanError
+		standardDeviation+=std(predictions)
+		print metrics.classification_report(testLabel,predictions)
 		# print meanError
 	print
-	print float(avg)/5
+	print "Mean Absolute Error: "+str(float(avg)/5)
+	print
+	print "Standard Deviation: "+str(float(standardDeviation/5))
+	print
 test()

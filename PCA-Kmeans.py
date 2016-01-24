@@ -65,6 +65,7 @@ def testKMeans(dataSet):
 		dataSet=loadData.loadTrainingData("u.data")
 		testFile="u"
 		avg=0.0
+		standardDeviationError=0
 		for i in range(1,6):
 			testData,testLabel=loadData.loadTestData(testFile+str(i)+".test")
 			m = shape(dataSet)[0]
@@ -93,10 +94,27 @@ def testKMeans(dataSet):
 				totalError+=absolute(ratingsPredicted-label)
 				index+=1
 			meanError=totalError/len(testData)
+			# print "Mean Absolute Error: "+str(meanError)
+			# print
 			avg+=meanError
-			print metrics.classification_report(testLabel,predictions)
+			# print "Precision And Recall: "
+			# print metrics.classification_report(testLabel,predictions)
+			# print
+			predictions=array(predictions)
+			standardDeviationError+=std(predictions)
+			# print "Standard Deviation: "+str(standardDeviationError)
+			# meanActual=mean(array(testLabel))
+			# standardDeviationActual=std(array(testLabel))
+			# tValue=(meanActual-meanError)/( sqrt( (((standardDeviationActual)**2)/len(testLabel)) + (((standardDeviationError)**2)/len(predictions))  )  )
+			# print "tValue: "+str(tValue)
+		# 	break
+		# break
+		# print
+		print "Mean Absolute Error: "+str(float(avg)/5)
 		print
-		print float(avg)/5
+		print "Standard Deviation: "+str(float(standardDeviationError/5))
+		print
+		break
 			# print meanError
 			# standardDeviation=std(predictions)
 			# print standardDeviation

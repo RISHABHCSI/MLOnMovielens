@@ -1,7 +1,7 @@
 import loadData
 from numpy import *
 import random
-
+from sklearn import *
 
 def initialization(dataSet,k):
     cluster=[]
@@ -22,8 +22,9 @@ def initialization(dataSet,k):
 
 def test():
     dataSet=loadData.loadTrainingData("u.data")
-    for clu in range(55,75,2):
+    for clu in range(74,75,2):
         avg=0.0
+        standardDeviation=0.0
         for te in range(1,6):
             testData,testLabel=loadData.loadTestData("u"+str(te)+".test")
             clusters,emptyPool,meanList=initialization(dataSet,clu)
@@ -95,10 +96,23 @@ def test():
             	predictions.append(tum)
             	totalError+=absolute(tum-label)
                 index+=1
+
             meanError=totalError/len(testData)
+            print "Precision And Recall: "
+            print shape(testLabel)
+
+            print metrics.classification_report(testLabel,predictions)
+            # print
+            return
+            predictions=array(predictions)
+            standardDeviation+=std(predictions)
+            # print standardDeviation
             # print meanError
             avg+=meanError
-        print float(avg)/5
+            # break
+        # break
+        print "Standard Deviation: "+str(standardDeviation)
+        # print float(avg)/5
             # print i
             # mae=float(sum(abs(dataSet[user,:]-meanList[randNes])))/1682
             # clusters[randNes][i]

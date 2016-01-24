@@ -1,6 +1,6 @@
 import loadData
 from numpy import *
-
+from sklearn import *
 def occupationLoad():
 	fileOpen=open("u.user")
 	arrayOfLines=fileOpen.readlines()
@@ -61,10 +61,11 @@ def kMeans(dataSet,k):
 def test():
 	dataSet=loadData.loadTrainingData("u.data")
 	occupation=occupationLoad()
-	for x in range(30,51,2):
+	for x in range(36,51,2):
 		centroids,clusterAssignment=kMeans(dataSet,x)# 15 clusters
 		testFile="u"
 		avg=0.0
+		standardDeviationError=0
 		for i in range(1,6):
 			k1,k2=0,0
 			testData,testLabel=loadData.loadTestData(testFile+str(i)+".test")
@@ -103,10 +104,20 @@ def test():
 				totalError+=absolute(ratingsPredicted-label)
 				index+=1
 			meanError=totalError/len(testData)
+			# if i==1:
+			print metrics.classification_report(testLabel,predictions)
 			# print meanError
 			avg+=meanError
+			predictions=array(predictions)
+			standardDeviationError+=std(predictions)
+		print "Mean Absolute Error: "+str(float(avg)/5)
 		print
-		print float(avg)/5
+		print "Standard Deviation: "+str(float(standardDeviationError/5))
+		print
+
+		break
+		# print
+		# print float(avg)/5
 		# break
 		# print meanError
 	# standardDeviation=std(predictions)
