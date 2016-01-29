@@ -61,6 +61,7 @@ def fcm(dataSet,mFuzzy,c,numOfIteration):
 				maxCluster=j
 		clusterAssignment.append(maxCluster)
 	return u,clusterAssignment
+
 def test():
 	dataSet=loadData.loadTrainingData("u.data")
 	u,clusterAssignment=fcm(dataSet,2,8,2)
@@ -69,7 +70,7 @@ def test():
 	# return
 	testFile="u"
 	avg=0.0
-	for i in range(1,2):
+	for i in range(1,6):
 		testData,testLabel=loadData.loadTestData(testFile+str(i)+".test")
 		m = shape(dataSet)[0]
 		totalError=0

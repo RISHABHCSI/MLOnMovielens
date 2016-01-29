@@ -22,12 +22,6 @@ def initializeCentroid(dataSet,k):# initial value of centroids..
 		centroids[:,j] = mini + rangei * random.rand(k,1) # s.t. values donot exceed the maximum value of feature, can do random initialization of matrics between 1 and 5.. But this won't work for other data
 	return centroids
 
-def deleteThis(dataSet):
-	mini=min(dataSet[:,0])
-	maxi=max(dataSet[:,0])
-	rangei=maxi-mini
-	print mini,maxi,rangei
-
 def kMeans(dataSet,k):
 	m = shape(dataSet)[0]
 	n=shape(dataSet)[1]
@@ -45,7 +39,7 @@ def kMeans(dataSet,k):
 					minDist = dist
 					minDistanceCluster=j
 			if clusterAssignment[i] != minDistanceCluster: # if there's a change in assigned cluster
-				clusterChanged = True
+				check = True
 			clusterAssignment[i] = minDistanceCluster # update the cluster assigned
 		for i in range(0,k):
 			temp=[]# contain the list of users belong to a particular cluster(i)
@@ -61,11 +55,14 @@ def kMeans(dataSet,k):
 def test():
 	dataSet=loadData.loadTrainingData("u.data")
 	occupation=occupationLoad()
-	for x in range(36,51,2):
-		centroids,clusterAssignment=kMeans(dataSet,x)# 15 clusters
+	listOfKValues=[8,16,32,64]
+	for x in listOfKValues:
+		centroids,clusterAssignment=kMeans(dataSet,x)
+		print "For Clusters= %d :-"%x
 		testFile="u"
 		avg=0.0
-		standardDeviationError=0
+		standardDeviation=0.0
+		numOfTimes=True
 		for i in range(1,6):
 			k1,k2=0,0
 			testData,testLabel=loadData.loadTestData(testFile+str(i)+".test")
@@ -104,24 +101,16 @@ def test():
 				totalError+=absolute(ratingsPredicted-label)
 				index+=1
 			meanError=totalError/len(testData)
-			# if i==1:
-			print metrics.classification_report(testLabel,predictions)
+			if numOfTimes:
+				print metrics.classification_report(testLabel,predictions)
+				numOfTimes=False
 			# print meanError
 			avg+=meanError
 			predictions=array(predictions)
 			standardDeviationError+=std(predictions)
-		print "Mean Absolute Error: "+str(float(avg)/5)
-		print
-		print "Standard Deviation: "+str(float(standardDeviationError/5))
-		print
 
-		break
-		# print
-		# print float(avg)/5
-		# break
-		# print meanError
-	# standardDeviation=std(predictions)
-	# print standardDeviation
-
+		print "Mean Error: ", float(avg)/5
+		print "Standard Deviation: ",float(standardDeviation)/5
+		print
 test()
 # occupationLoad()
